@@ -15,25 +15,21 @@ interface User2 {
 }
 
 usersRouter.post('/', async (request, response) => {
-  try{
-    const { name, email, password } = request.body;
+  const { name, email, password } = request.body;
 
-    const createUser = new CreateUserService();
+  const createUser = new CreateUserService();
 
-    const user = await createUser.execute({
-      name,
-      email,
-      password,
-    });
+  const user = await createUser.execute({
+    name,
+    email,
+    password,
+  });
 
-    const user2: User2 = user;
+  const user2: User2 = user;
 
-    delete user2.password;
+  delete user2.password;
 
-    return response.json(user2);
-  }catch (err) {
-    return response.status(400).json({ error: err.message });
-  }
+  return response.json(user2);
 });
 
 usersRouter.patch(
@@ -41,21 +37,17 @@ usersRouter.patch(
   ensureAuthenticated,
   upload.single('avatar'),
   async (request, response) => {
-    try{
-      const updateUserAvatar = new UpdateUserAvatarService();
+    const updateUserAvatar = new UpdateUserAvatarService();
 
-      const user = await updateUserAvatar.execute({
-        user_id: request.user.id,
-        avatarFilename: String(request.file?.filename),
-      });
-      const user2: User2 = user;
+    const user = await updateUserAvatar.execute({
+      user_id: request.user.id,
+      avatarFilename: String(request.file?.filename),
+    });
+    const user2: User2 = user;
 
-      delete user2.password;
+    delete user2.password;
 
-      return response.json(user);
-    } catch(err) {
-      return response.status(400).json({ error: err.message });
-    }
+    return response.json(user);
 });
 
 export default usersRouter;
