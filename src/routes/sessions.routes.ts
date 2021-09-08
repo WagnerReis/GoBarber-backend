@@ -18,11 +18,11 @@ sessionsRouter.post('/', async (request, response) => {
     password,
   });
 
-  const user2: User2 = user;
+  // const user2: User2 = user;
 
-  delete user2.password;
+  // delete user2.password;
 
-  return response.json({ user2, token});
+  return response.json({ user, token});
 });
 
 export default sessionsRouter;
